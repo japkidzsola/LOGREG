@@ -27,24 +27,16 @@ public class LoggedInActivity extends AppCompatActivity {
 
         AdatbazisSegito dbhelper = new AdatbazisSegito(LoggedInActivity.this);
         Cursor cursorAdatok = dbhelper.Bejelentkezes();
-        String  bejelentkezes = dbhelper.Bejelentk();
+        String bejelentkezes = dbhelper.Bejelentk();
 
         //String bejelentkezoneveh = bejelentkezofelhasz.getText().toString();
         StringBuffer stringBuffer = new StringBuffer();
-        while (cursorAdatok.moveToNext()){
-            if (bejelentkezes.equals(cursorAdatok.getString(1)))
-            {
-                stringBuffer.append("Üdvözlünk: "+cursorAdatok.getString(4));
-            }
-            else if (bejelentkezes.equals(cursorAdatok.getString(2)))
-            {
-                stringBuffer.append("Üdvözlünk: "+cursorAdatok.getString(4));
-            }
-            else
-            {
-
-            }
+        if (cursorAdatok.getCount()==0)
+        {
+            stringBuffer.append("Üdvözlünk"+AdatbazisSegito.loggedinuser.getFelhasznalonev());
         }
+            stringBuffer.append("Üdvözlünk");
+
         teljesnev.setText(stringBuffer.toString());
 
         kijelentkezes.setOnClickListener(new View.OnClickListener() {

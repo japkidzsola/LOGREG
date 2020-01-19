@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     String bejelentkezofelhasz = dbhelper.Bejelentkezoneve(bejelentkezoneve);
                     Intent loggedIn =
-                            new Intent(MainActivity.this, LoggedInActivity.class);
+                        new Intent(MainActivity.this, LoggedInActivity.class);
                     startActivity(loggedIn);
                     finish();
                 }

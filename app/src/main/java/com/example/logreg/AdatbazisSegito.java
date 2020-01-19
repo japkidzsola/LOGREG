@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class AdatbazisSegito extends SQLiteOpenHelper {
 
+    public static User loggedinuser;
     private static final int DBversion = 1;
     private static final String DBname = "tanulok.db";
 
@@ -58,6 +59,36 @@ public class AdatbazisSegito extends SQLiteOpenHelper {
         }
     }
 
+    public boolean Bejelentkezes(String felhasznalonev,String jelszo){
+        SQLiteDatabase db = this.getReadableDatabase();
+        User u= new User();
+        Cursor Adat = this.getFelhasznaloAdat(felhasznalonev);
+        if (Adat.getCount()==0)
+        {
+            return false;
+        }
+        while(Adat.moveToNext())
+        {
+            if (Adat.getString(1).equals(jelszo))
+            {
+                loggedinuser=new User();
+                loggedinuser.setFelhasznalonev(felhasznalonev);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public Cursor getFelhasznaloAdat(String felhasznalonev)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT felhasz,jelszo FROM "+TABLE_NAME +" WHERE felhasz ='"+felhasznalonev+"'", null);
+    }
+
     public Cursor Bejelentkezes(){
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM "+TABLE_NAME, null);
@@ -65,7 +96,7 @@ public class AdatbazisSegito extends SQLiteOpenHelper {
 
     String nev;
     public String Bejelentkezoneve(String s) {
-        nev+= s;
+        nev = s;
         return s;
     }
     public String Bejelentk() {
